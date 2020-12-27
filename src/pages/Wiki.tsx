@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import sanityClient from "../client";
-import WikiItem from "./WikiItem";
 
 const Wiki = () => {
   const [postData, setPostData] = useState<any>([]);
@@ -23,7 +22,12 @@ const Wiki = () => {
     <main>
       <section>
         <h1>Spørsmål & svar</h1>
-        {postData && postData.map((post, index) => <WikiItem post={post} key={index} />)}
+        {postData &&
+          postData.map((post, index) => (
+            <Link to={"/wiki/" + post.slug.current} key={index}>
+              <h3>{post.title ?? "noData"}</h3>
+            </Link>
+          ))}
       </section>
     </main>
   );

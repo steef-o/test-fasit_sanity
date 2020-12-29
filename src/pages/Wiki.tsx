@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../client";
 import CharacterReadingSVG from "../assets/img/CharacterReadingSVG";
+import { WikiTypes } from "../Models/WikiTypes";
 
 const Wiki = () => {
-  const [postData, setPostData] = useState<any>([]);
+  const [postData, setPostData] = useState<WikiTypes[]>([]);
+
+  console.log(postData);
 
   useEffect(() => {
     sanityClient
@@ -19,6 +22,8 @@ const Wiki = () => {
       .catch((err: string) => console.log(err));
   }, []);
 
+  if (postData.length === 0) return <div>Loading...</div>;
+
   return (
     <main className="w-full sm:flex justify-center m-2 sm:m-0">
       <section className="w-full sm:w-5/12">
@@ -28,13 +33,13 @@ const Wiki = () => {
         </div>
         <ul className="mt-8">
           {postData &&
-            postData.map((post, index) => (
+            postData.map((post) => (
               <Link
                 to={"/wiki/" + post.slug.current}
-                key={index}
+                key={post.slug.current}
                 className="hover:text-magenta hover:underline"
               >
-                <li className="">{post.title ?? "noData"}</li>
+                <li className="">{post?.title}</li>
               </Link>
             ))}
         </ul>
